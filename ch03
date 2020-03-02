@@ -1,0 +1,56 @@
+
+#include <stdio.h>
+#include <limits.h>
+#include <float.h>
+
+int main(void)
+{
+    // 01
+    printf("Integer overflow: %i, underflow: %i\n", INT_MAX+1, INT_MIN-1);
+    printf("Float overflow: %f, underflow: %f\n", FLT_MAX+1.0, FLT_MIN-1.0);
+    
+    // 02
+    int ascii;
+    printf("Enter a number.\n");
+    scanf("%d", &ascii);
+    printf("A character for number %d is %c.\n", ascii, ascii);
+    
+    // 03
+    printf("\a");
+    printf("Sally screamed, \n\"Pumpkin Lord!\"\n");
+    
+    // 04
+    float num;
+    printf("Enter a floating-point number: ");
+    scanf("%f", &num);
+    printf("Fixed-point: %0f\n", num);
+    printf("Exponent: %e\n", num);
+    printf("P: %a\n", num);
+    
+    // 05
+    int age;
+    printf("How many years old are you?: ");
+    scanf("%i", &age);
+    printf("You are %f seconds old.\n", age * 3.156e+10);
+    
+    // 06
+    int water;
+    printf("How many quarts of water is there?: ");
+    scanf("%i", &water);
+    printf("There are %f molecules of water.\n", water * 950 / 3.0e-23);
+    
+    // 07
+    int height;
+    printf("How tall are you in centimeters?: ");
+    scanf("%i", &height);
+    printf("You are %g inches tall.\n", height / 2.54);
+    
+    // 08
+    float cups;
+    printf("How many cups of water are there?: ");
+    scanf("%f", &cups);
+    printf("That is %g pints, %g ounces, %g tablespoons, %g teaspoons of water.\n", cups/2, cups*8, cups*8*2, cups*8*2*3);
+    
+    return 0;
+}
+
