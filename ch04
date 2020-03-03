@@ -1,0 +1,78 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <float.h>
+
+int main(void)
+{
+    // 01
+    char first[20];
+    char last[20];
+    printf("What is your name?: ");
+    scanf("%s", &first);
+    printf("What is your last name?: ");
+    scanf("%s", &last);
+    printf("%s %s\n", first, last);
+    
+    // 02
+    char name[40];
+    printf("What is your name?: ");
+    scanf("%s", &name);
+    printf("\"%s\"\n", name);
+    printf("\"%20s\"\n", name);
+    printf("\"%-20s\"\n", name);
+    printf("\"   %s\"\n", name);
+    
+    // 03
+    float num;
+    printf("Enter a floating-point number: ");
+    scanf("%f", &num);
+    printf("Number entered is %2.1f aka %1.1e\n", num, num);
+    printf("Number entered is %+2.3f aka %1.3E\n", num, num);
+    
+    // 04
+    float height;
+    printf("Enter your height in centimeters: ");
+    scanf("%f", &height);
+    printf("Miss %s, your are %1.1f meters tall.\n", name, height/100);
+    
+    // 05
+    float mbps;
+    float mb;
+    printf("Enter downloading Mb per second and the size of downloading file in MB: ");
+    scanf("%f %f", &mbps, &mb);
+    printf("We download %2.1f megabyte file in %2.1f seconds, %2.1f megabits per second.\n", mb, mb*mbps, mbps);
+    
+    // 06
+    printf("%s %s\n", first, last);
+    printf("%*i %*i\n", strlen(first), strlen(first), strlen(last), strlen(last));
+    printf("%s %s\n", first, last);
+    printf("%-*i %-*i\n", strlen(first), strlen(first), strlen(last), strlen(last));
+    
+    // 07
+    double one, three;
+    float oneone, threethree;
+    one = 1.0;
+    three = 3.0;
+    oneone = 1.0;
+    threethree = 3.0;
+    printf("%1.4f %1.12f %1.16f\n", one, one, one);
+    printf("%1.4f %1.12f %1.16f\n", three, three, three);
+    printf("%1.4f %1.12f %1.16f\n", oneone, oneone, oneone);
+    printf("%1.4f %1.12f %1.16f\n", threethree, threethree, threethree);
+    printf("Float digits: %i, Double digits: %i\n", FLT_DIG, DBL_DIG);
+
+    // 08
+    float road, gas;
+    printf("How many miles have you ran for, using how many gallons of gas?: ");
+    scanf("%f %f", &road, &gas);
+    const float MILE = 1.609;
+    const float GALLON = 3.785;
+    float kilos, liters;
+    kilos = road * MILE;
+    liters = gas * GALLON;
+    printf("%1.1f miles per gallon, %1.1f liters per a hundred kilometers.\n", road/gas, liters/kilos*100);
+    
+    return 0;
+}
+
