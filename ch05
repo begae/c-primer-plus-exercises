@@ -1,0 +1,119 @@
+
+#include <stdio.h>
+void power(float num);
+void temperature(double farenheit);
+
+int main(void) {
+    
+    // 01
+    int min;
+    const int HOUR = 60;
+    while (min > 0) {
+        printf("Enter minutes: ");
+        scanf("%i", &min);
+        printf("That is %i hours %i minutes.\n", min/HOUR, min%HOUR);
+    }
+    
+    // 02
+    int start, end;
+    printf("Enter a integer: ");
+    scanf("%i", &start);
+    end = start + 10;
+    printf("%i ", start);
+    while (start++ < end)
+        printf("%i ", start);
+    printf("\n");
+    
+    // 03
+    int days, weeks, left;
+    printf("Enter the count of days: ");
+    scanf("%i", &days);
+    while (days > 0) {
+        weeks = days / 7;
+        left = days % 7;
+        printf("That is %i weeks %i days.\n", weeks, left);
+        printf("Enter the count of days: ");
+        scanf("%i", &days);
+    }
+    
+    // 04
+    float height, inches;
+    int feet;
+    printf("Enter your height in centimeters: ");
+    scanf("%f", &height);
+    while (height > 0) {
+        feet = height / 30.0;
+        inches = (int) height % 30 / 2.5;
+        printf("%1.1f centimeters are %i feet %1.1f inches.\n", height, feet, inches);
+        printf("Enter your height in centimeters: ");
+        scanf("%f", &height);
+    }
+    printf("Bye!\n");
+    
+    // 05
+    int count, sum, worked;
+    count = 0;
+    sum = 0;
+    printf("How many days have you worked?: ");
+    scanf("%i", &worked);
+    while (count++ < worked)
+        sum = sum + count;
+    printf("Pay for work = %d\n", sum);
+    
+    // 06
+    int cnt, pay;
+    cnt = 0;
+    pay = 0;
+    while (cnt++ < worked)
+        pay = pay + cnt * cnt;
+    printf("Another pay for work = %d\n", pay);
+
+    // 07
+    float num, cube;
+    printf("Enter a floating-point number: ");
+    scanf("%f", &num);
+    cube = num * num * num;
+    printf("The cubed number is %f.\n", cube);
+    power(cube);
+    
+    // 08
+    int integer, divider;
+    printf("This is a modulus program. Enter the divider: ");
+    scanf("%i", &divider);
+    printf("Now enter the number to divide: ");
+    scanf("%i", &integer);
+    while (integer > 0) {
+        printf("%i %% %i = %i\n", integer, divider, integer % divider);
+        printf("Enter another number to divide: ");
+        scanf("%i", &integer);
+    }
+    
+    // 09
+    int result;
+    double farenheit;
+    printf("Enter a farenheit temperature: ");
+    result = scanf("%lf", &farenheit);
+    while (result == 1) {
+        temperature(farenheit);
+        printf("Enter a farenheit temperature(Enter q to quit): ");
+        result = scanf("%lf", &farenheit);
+    }
+    
+    
+    return 0;
+}
+
+void power(float cube) {
+    printf("The cube of the cube is %f.\n", cube * cube * cube);
+}
+
+void temperature(double farenheit) {
+    const double CON1 = 5.0 / 9.0;
+    const double CON2 = 32.0;
+    const double CON3 = 273.16;
+    double celcius, kalvin;
+    celcius = CON1 * (farenheit - CON2);
+    kalvin = celcius + CON3;
+    printf("%.2lf farenheit is %.2lf celcius or %.2lf kalvin.\n", farenheit, celcius, kalvin);
+}
+
