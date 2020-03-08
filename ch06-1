@@ -1,0 +1,116 @@
+
+#include <stdio.h>
+#include <string.h>
+
+float calculate(float f, float ff);
+int main(void) {
+    
+    // 01
+    int index, alphabets[26];
+    char letter = 'a';
+    for (index = 0; index < 26; index++) {
+        alphabets[index] = letter + index;
+        printf("%c ", alphabets[index]);
+    }
+    printf("\n");
+    
+    // 02
+    letter = '$';
+    int count, written;
+    for (count = 1; count <= 5; count++) {
+        for (written = 0; written < count; written++)
+            printf("%c", letter);
+        printf("\n");
+    }
+    
+    // 03
+    letter = 'F';
+    for (count = 0; count < 6; count++) {
+        for (written = 0; written <= count; written++)
+            printf("%c", letter - written);
+        printf("\n");
+    }
+    
+    // 04
+    letter = 'A';
+    for (count = 1; count < 7; count++) {
+        for (written = 0; written < count; written++)
+            printf("%c", letter + written);
+        letter += count;
+        printf("\n");
+    }
+    
+    // 05
+    char last, middle;
+    printf("Enter the last letter to print in uppercase: ");
+    scanf("%c", &last);
+    for (middle = 'A'; middle <= last; middle++) {
+        printf("%*c", last - middle + 1, ' ');
+        for (letter = 'A'; letter <= middle; letter++)
+            printf("%c", letter);
+        for (letter = middle - 1; letter >= 'A'; letter--)
+            printf("%c", letter);
+        printf("\n");
+    }
+    
+    // 06
+    int n, nn;
+    printf("Enter two integer for start and end: ");
+    scanf("%i %i", &n, &nn);
+    printf("integer     squared     cubed\n");
+    for (n = n; n <= nn; n++)
+        printf("%7i %11i %9i\n", n, n*n, n*n*n);
+    
+    // 07
+    int length;
+    char word[length];
+    printf("Enter a word: ");
+    scanf("%s", word);
+    for (length = strlen(word) - 1; length >= 0; length--)
+        printf("%c", word[length]);
+    printf("\n");
+    
+    // 08
+    float f, ff, multiplied, difference;
+    printf("Enter two floating-point number: ");
+    while (scanf("%f %f", &f, &ff) == 2) {
+        multiplied = f * ff;
+        difference = f - ff;
+        printf("%f\n", difference / multiplied);
+        printf("Enter two floating-point number(q to quit): ");
+    }
+    
+    // 09
+    char former_input;
+    scanf("%c", &former_input);
+    printf("Again, enter two floating-point number: ");
+    while (scanf("%f %f", &f, &ff) == 2) {
+        printf("%f\n", calculate(f, ff));
+        printf("Enter two floating-point number(q to quit): ");
+    }
+    
+    // 10
+    scanf("%c", &former_input);
+    printf("Enter two integer for start and end: ");
+    while (scanf("%i %i", &n, &nn) == 2 && n < nn) {
+        int target, squared;
+        int sum = 0;
+        for (target = n; target <= nn; target++) {
+            squared = target * target;
+            sum += squared;
+        }
+        printf("The sum of squared integers from %i to %i is %i.\n", n, nn, sum);
+        printf("Enter two integer for start and end: ");
+    }
+    printf("Program ended.\n");
+    
+    return 0;
+}
+
+float calculate(float f, float ff) {
+    float multiplied, difference;
+    multiplied = f * ff;
+    difference = f - ff;
+    return (difference / multiplied);
+}
+
