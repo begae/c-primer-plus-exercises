@@ -1,0 +1,295 @@
+
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#define WAGE 10.0
+#define WAGE1 8.75
+#define WAGE2 9.33
+#define WAGE3 11.20
+#define OVER 1.5
+#define TAX1 0.15
+#define TAX2 0.2
+#define TAX3 0.25
+
+int options(void);
+void payment(float);
+void prime(int);
+void tax(float, float);
+int main(void) {
+    
+    // 01
+    char c;
+    int spaces = 0, newline = 1, etc = 0;
+    printf("Enter text to analyze(# to quit): ");
+    while ((c = getchar()) != '#') {
+        if (c == '\n')
+            newline++;
+        if (c == ' ')
+            spaces++;
+        else
+            etc++;
+    }
+    printf("There's %i spaces, %i lines and %i other characters.\n", spaces, newline, etc);
+    
+    // 03
+    char former_input = getchar();
+    int even = 0, odd = 0;
+    char num;
+    printf("Enter integers(0 to quit): ");
+    while ((num = getchar()) != '0') {
+        if ((int) num % 2 == 0)
+            even++;
+        else
+            odd++;
+    }
+    printf("There's %i even numbers and %i odd numbers.\n", even, odd);
+    
+    // 04
+    former_input = getchar();
+    int count = 0;
+    printf("Enter text with period and exclamation mark(# to quit): ");
+    while ((c = getchar()) != '#') {
+        if (c == '.') {
+            putchar('!');
+            count++;
+        }
+        else if (c == '!') {
+            putchar('!');
+            putchar('!');
+            count++;
+        } else {
+            putchar(c);
+        }
+    }
+    printf("\n");
+    printf("Coversion occured %i times.\n", count);
+    
+    // 05
+    former_input = getchar();
+    count = 0;
+    printf("Enter text with period and exclamation mark(# to quit): ");
+    while ((c = getchar()) != '#') {
+        switch (c) {
+            case '.':
+                putchar('!');
+                count++;
+                break;
+            case '!':
+                putchar('!');
+                putchar('!');
+                count++;
+                break;
+            default:
+                putchar(c);
+        }
+    }
+    printf("\n");
+    printf("Coversion occured %i times.\n", count);
+    
+    // 06
+    former_input = getchar();
+    count = 0;
+    printf("Enter text including 'ei'(# to quit): ");
+    while ((c = getchar()) != '#') {
+        if (c == 'e') {
+            c = getchar();
+            if (c == 'i')
+                count++;
+            continue;
+        } else {
+            continue;
+        }
+    }
+    printf("The 'ei' appeared %i times.\n", count);
+    
+    // 07
+    former_input = getchar();
+    payment(WAGE);
+    
+    // 08
+    scanf("%c", &former_input);
+    int selection;
+    while ((selection = options()) != 5) {
+        switch (selection) {
+            case 1:
+                payment(WAGE1);
+                break;
+            case 2:
+                payment(WAGE2);
+                break;
+            case 3:
+                payment(WAGE);
+                break;
+            case 4:
+                payment(WAGE3);
+                break;
+            case 5:
+                break;
+            default:
+                printf("Invalid input.\n");
+                break;
+        }
+    }
+    
+    //09
+    scanf("%c", &former_input);
+    int number;
+    printf("Enter an integer for limit: ");
+    scanf("%i", &number);
+    prime(number);
+    
+    // 10
+    scanf("%c", &former_input);
+    const float SOLO = 17850.0;
+    const float LEADER = 23900.0;
+    const float TOGETHER = 29750.0;
+    const float SEPERATE = 14875.0;
+    int opt;
+    float line, income, taxx;
+    printf("Enter if you are 1)solo, 2)family leader, 3)work and calculate together or 4) work together but calculate seperately(q to quit): ");
+    while ((scanf("%i", &opt)) == 1) {
+        printf("Enter your income that is object of taxation: ");
+        scanf("%f", &income);
+        switch (opt) {
+            case 1:
+                tax(SOLO, income);
+                break;
+            case 2:
+                tax(LEADER, income);
+                break;
+            case 3:
+                tax(TOGETHER, income);
+                break;
+            case 4:
+                tax(SEPERATE, income);
+                break;
+            default:
+                printf("Invalid input.\n");
+                break;
+        }
+        printf("Enter if you are 1)solo, 2)family leader, 3)work and calculate together or 4) work together but calculate seperately(q to quit): ");
+    }
+    
+    // 11
+    scanf("%c", &former_input);
+    former_input = getchar();
+    char vegi;
+    int pounds, total_count;
+    int artichokes = 0, beets = 0, carrots = 0;
+    float sum, discount, ship;
+    const float ARTI = 2.05;
+    const float BEET = 1.15;
+    const float CARR = 1.09;
+    printf("Enter 'a' for artichokes, 'b' for beets, 'c' for carrots(q to quit): ");
+    while ((vegi = getchar()) != 'q') {
+        printf("How many pounds of it?: ");
+        scanf("%i", &pounds);
+        switch (vegi) {
+            case 'a':
+                artichokes += pounds;
+                break;
+            case 'b':
+                beets += pounds;
+                break;
+            case 'c':
+                carrots += pounds;
+                break;
+            default:
+                printf("There no vegitable for that initial.\n");
+                break;
+        }
+        printf("Enter 'a' for artichokes, 'b' for beets, 'c' for carrots(q to quit): ");
+        former_input = getchar();
+    }
+    total_count = artichokes + beets + carrots;
+    sum = ARTI * (float) artichokes + BEET * (float) beets + CARR * (float) carrots;
+    if (sum >= 100.0)
+        discount = sum * 0.05;
+    else
+        discount = 0;
+    if (total_count < 5)
+        ship = 6.50;
+    else if (total_count < 20)
+        ship = 14.00;
+    else {
+        ship = 14.00;
+        ship += (float) (total_count - 20) * 0.50;
+    }
+    printf("Vegitables  Price per pound     Quantity        Price\n");
+    printf("Artichokes  %15.2f %12i %12.2f\n", ARTI, artichokes, ARTI * artichokes);
+    printf("     Beets  %15.2f %12i %12.2f\n", BEET, beets, BEET * beets);
+    printf("   Carrots  %15.2f %12i %12.2f\n", CARR, carrots, CARR * carrots);
+    printf("-----------------------------------------------------\n");
+    printf("  Subtotal  Discount    Shipping    Grand total\n");
+    printf("  %8.2f %9.2f %11.2f %14.2f\n", sum, discount, ship, sum-discount+ship);
+    
+    return 0;
+}
+
+int options(void) {
+    int i, selection;
+    for (i = 0; i < 30; i++)
+        printf("*");
+    printf("\nEnter number for your hourly wage(5 to quit) \n");
+    printf("1) $8.75 per hour       2) $9.33 per hour       \n");
+    printf("3) $10.00 per hour      4) $11.20 per hour      \n");
+    for (i = 0; i < 30; i++)
+        printf("*");
+    printf("\n->");
+    scanf("%i", &selection);
+    return selection;
+}
+
+void payment(float wage) {
+    float time, overtime, gross, tax, net;
+    printf("How many hours have you worked this week?: ");
+    scanf("%f", &time);
+    overtime = time - 40;
+    gross = 40 * wage + overtime * wage * OVER;
+    if (gross <= 300) {
+        tax = gross * TAX1;
+        net = gross - tax;
+    } else if (gross <= 450) {
+        tax = 300 * TAX1 + (gross - 300) * TAX2;
+        net = gross - tax;
+    } else {
+        tax = 300 * TAX1 + 150 * TAX2 + (gross - 450) * TAX3;
+        net = gross - tax;
+    }
+    printf("The gross pay is $%.1f, taxes are $%.1f, net pay is $%.1f.\n", gross, tax, net);
+}
+
+void prime(int number) {
+    int div, target, primes[number], index, i;
+    bool isPrime = true;
+    primes[0] = 2;
+    index = 0;
+    for (target = 3; target <= number; target++) {
+        for (div = 2; (div * div) <= target; div++) {
+            if (target % div == 0) {
+                isPrime = false;
+                break;
+            } else {
+                isPrime = true;
+                continue;
+            }
+        }
+        if (isPrime == true) {
+            index++;
+            primes[index] = target;
+        }
+    }
+    for (i = 0; i <= index; i++)
+        printf("%i ", primes[i]);
+    printf("\n");
+}
+
+void tax(float line, float income) {
+    float tax;
+    if (income <= line)
+        tax = income * 0.15;
+    else
+        tax = line * 0.15 + (income - line) * 0.28;
+    printf("Your taxes are $%.1f.\n", tax);
+}
+
