@@ -1,6 +1,5 @@
 
 #include <stdio.h>
-#include <string.h>
 #include <stdbool.h>
 #define WAGE 10.0
 #define WAGE1 8.75
@@ -31,8 +30,23 @@ int main(void) {
     }
     printf("There's %i spaces, %i lines and %i other characters.\n", spaces, newline, etc);
     
-    // 03
+    // 02
     char former_input = getchar();
+    int count = 0;
+    printf("Enter text to convert to ascii code value(q to quit): ");
+    while ((c = getchar()) != '#') {
+        if (count < 8) {
+            printf("%4c %4i ", c, (int) c);
+            count++;
+        } else {
+            printf("\n");
+            count = 0;
+        }
+    }
+    printf("\n");
+    
+    // 03
+    former_input = getchar();
     int even = 0, odd = 0;
     char num;
     printf("Enter integers(0 to quit): ");
@@ -46,7 +60,7 @@ int main(void) {
     
     // 04
     former_input = getchar();
-    int count = 0;
+    count = 0;
     printf("Enter text with period and exclamation mark(# to quit): ");
     while ((c = getchar()) != '#') {
         if (c == '.') {
@@ -145,7 +159,7 @@ int main(void) {
     const float TOGETHER = 29750.0;
     const float SEPERATE = 14875.0;
     int opt;
-    float line, income, taxx;
+    float income;
     printf("Enter if you are 1)solo, 2)family leader, 3)work and calculate together or 4) work together but calculate seperately(q to quit): ");
     while ((scanf("%i", &opt)) == 1) {
         printf("Enter your income that is object of taxation: ");
