@@ -13,6 +13,8 @@
 char options(void);
 void payment(float);
 int main(void) {
+
+    // run with a file inside the directory
         
     // 01
     int ch, count = 0;
@@ -195,7 +197,6 @@ int main(void) {
         printf("m) multiply                 d) divide       \n");
         scanf("%c", &enter);
     }
-    
     
     return 0;
 }
