@@ -1,0 +1,234 @@
+
+#include <stdio.h>
+#include <ctype.h>
+#define WAGE 10.0
+#define WAGE1 8.75
+#define WAGE2 9.33
+#define WAGE3 11.20
+#define OVER 1.5
+#define TAX1 0.15
+#define TAX2 0.2
+#define TAX3 0.25
+
+char options(void);
+void payment(float);
+int main(void) {
+        
+    // 01
+    int ch, count = 0;
+    FILE * fp;
+    char fname[50];
+    printf("Enter the name of the file: ");
+    scanf("%s", fname);
+    fp = fopen(fname, "r");
+    if (fp == NULL) {
+        printf("Failed to open file. Bye!\n");
+    }
+    while ((ch = getc(fp)) != EOF)
+        count++;
+    printf("%d letters in this file!\n", count);
+    fclose(fp);
+    
+    // used '|' instead of EOF
+    
+    // 02
+    count = 0;
+    char former_input = getchar();
+    printf("Enter text including control characters(| to quit): ");
+    while ((ch = getchar()) != '|') {
+        if (count < 10) {
+            if (ch == '\n') {
+                printf("  \\n %4i ", ch);
+                printf("\n");
+                count = 0;
+            } else if (ch == '\t')
+                printf("  \\t %4i ", ch);
+            else if (ch < 32)
+                printf("  ^%c %4i ", ch+64, ch);
+            else
+                printf("%4c %4i ", ch, ch);
+            count++;
+        } else {
+            printf("\n");
+            count = 0;
+        }
+    }
+    printf("\n");
+    
+    // 03
+    former_input = getchar();
+    int upper = 0, lower = 0;
+    printf("Enter text to evaluate(| to quit): ");
+    while ((ch = getchar()) != '|') {
+        if (islower(ch))
+            lower++;
+        else if (isupper(ch))
+            upper++;
+        else
+            continue;
+    }
+    printf("Upper = %i, Lower = %i\n", upper, lower);
+    
+    // 04
+    former_input = getchar();
+    count = 1;
+    int index = 0;
+    int sum = 0;
+    int array[index];
+    printf("Enter text to evaluate(| to quit): ");
+    while ((ch = getchar()) != '|') {
+        if (ispunct(ch))
+            continue;
+        else if (ch == ' ') {
+            array[index] = count;
+            count = 1;
+            index++;
+        } else {
+            count++;
+        }
+    }
+    array[index] = count-1;
+    for (count = 0; count <= index; count++) {
+        sum += array[count];
+    }
+    printf("Everage length of word is %d letters.\n", sum / (index+1));
+    
+    // 05
+    former_input = getchar();
+    int max = 100;
+    int min = 1;
+    int guess = (max + min) / 2;
+    char response;
+    printf("Pick an integer from 1 to 100. I will try to guess it.\n");
+    printf("Enter 'U' if my guess is smaller, 'D' if it is bigger. And 'C' if I am right.\n");
+    printf("Uh... is your number %d?\n", guess);
+    while ((response = getchar()) != 'C') {
+        if (response == 'U') {
+            min = guess;
+            guess = (max + min) / 2;
+            printf("Well, then, is it %d?\n", guess);
+            former_input = getchar();
+        } else if (response == 'D') {
+            max = guess;
+            guess = (max + min) / 2;
+            printf("Well, then, is it %d?\n", guess);
+            former_input = getchar();
+        } else {
+            printf("Sorry, I understand only U, D or C.\n");
+            former_input = getchar();
+        }
+    }
+    printf("I knew I could do it!\n");
+    
+    // 06
+    former_input = getchar();
+    char output[1];
+    printf("Enter text starting with white spaces: ");
+    scanf("%s", output);
+    printf("Letter I first met is %s.\n", output);
+    
+    // 07
+    char selection;
+    while ((selection = options()) != 'q') {
+        switch (selection) {
+            case 'a':
+                payment(8.75);
+                break;
+            case 'b':
+                payment(9.33);
+                break;
+            case 'c':
+                payment(10.00);
+                break;
+            case 'd':
+                payment(11.20);
+                break;
+            case 'q':
+                break;
+            default:
+                printf("Invalid input.\n");
+                break;
+        }
+    }
+    
+    // 08
+    char enter = getchar();
+    float first, second;
+    char operation, wrong[10];
+    printf("Choose letter for operation you want(q to quit):\n");
+    printf("a) add                      s) subtract     \n");
+    printf("m) multiply                 d) divide       \n");
+    while ((operation = getchar()) != 'q') {
+        printf("Enter first number: ");
+        while ((scanf("%c %f", &enter, &first)) != 2) {
+            scanf("%s", wrong);
+            printf("%s : Not a number.\nEnter something like 2.5, -1.78E8 or 3: ", wrong);
+        }
+        printf("Enter second number: ");
+        while ((scanf("%c %f", &enter, &second)) != 2) {
+            scanf("%s", wrong);
+            printf("%s : Not a number.\nEnter something like 2.5, -1.78E8 or 3: ", wrong);
+        }
+        switch (operation) {
+            case 'a':
+                printf("%.2f + %.2f = %.2f\n", first, second, first+second);
+                break;
+            case 's':
+                printf("%.2f - %.2f = %.2f\n", first, second, first-second);
+                break;
+            case 'm':
+                printf("%.2f * %.2f = %.2f\n", first, second, first*second);
+                break;
+            case 'd':
+                while (second == 0) {
+                    printf("Enter the second number that is not zero: ");
+                    scanf("%c %f", &enter, &second);
+                }
+                printf("%.2f / %.2f = %.2f\n", first, second, first/second);
+                break;
+            default:
+                printf("Invalid operation.\n");
+                break;
+            }
+        printf("Choose letter for operation you want(q to quit):\n");
+        printf("a) add                      s) subtract     \n");
+        printf("m) multiply                 d) divide       \n");
+        scanf("%c", &enter);
+    }
+    
+    
+    return 0;
+}
+
+char options(void) {
+    char former_input = getchar();
+    char selection;
+    printf("***************************************************\n");
+    printf("Choose from a to d for your hourly wage(q to quit) \n");
+    printf("a) $8.75 per hour           b) $9.33 per hour      \n");
+    printf("c) $10.00 per hour          d) $11.20 per hour     \n");
+    printf("***************************************************\n");
+    printf("->");
+    scanf("%c", &selection);
+    return selection;
+}
+
+void payment(float wage) {
+    float time, overtime, gross, tax, net;
+    printf("How many hours have you worked this week?: ");
+    scanf("%f", &time);
+    overtime = time - 40;
+    gross = 40 * wage + overtime * wage * OVER;
+    if (gross <= 300) {
+        tax = gross * TAX1;
+        net = gross - tax;
+    } else if (gross <= 450) {
+        tax = 300 * TAX1 + (gross - 300) * TAX2;
+        net = gross - tax;
+    } else {
+        tax = 300 * TAX1 + 150 * TAX2 + (gross - 450) * TAX3;
+        net = gross - tax;
+    }
+    printf("The gross pay is $%.1f, taxes are $%.1f, net pay is $%.1f.\n", gross, tax, net);
+}
+
