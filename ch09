@@ -1,0 +1,215 @@
+
+#include <stdio.h>
+
+double bigger(double, double);
+void chline(char, int, int);
+void printch(char, int, int);
+double harmonic(double, double);
+void larger_of(double *first, double *second);
+void sorting(double *first, double *second, double *third);
+int alphabetical_order(char);
+double power(double, int);
+double power2(double, int);
+void to_base_n(int, int);
+int fibonacci(int);
+
+int main(void) {
+    
+    // 01
+    double first = 4.4, second = 7.7;
+    printf("Which one is bigger? %.2f vs. %.2f\n", first, second);
+    bigger(first, second);
+    
+    // 02
+    char ch;
+    int i, j;
+    printf("Enter character to print, from i row to j row: ");
+    scanf("%c %i %i", &ch, &i, &j);
+    chline(ch, i, j);
+    
+    // 03
+    char former_input = getchar();
+    printf("Enter character to print, for i rows x j lines: ");
+    scanf("%c %i %i", &ch, &i, &j);
+    printch(ch, i, j);
+    
+    // 04
+    former_input = getchar();
+    printf("Enter two floating-point numbers: ");
+    scanf("%lf %lf", &first, &second);
+    harmonic(first, second);
+    
+    // 05
+    former_input = getchar();
+    printf("Enter two floating-point numbers: ");
+    scanf("%lf %lf", &first, &second);
+    larger_of(&first, &second);
+    printf("Now they are %.2lf and %.2lf.\n", first, second);
+    
+    // 06
+    double third;
+    former_input = getchar();
+    printf("Enter three floating-point numbers: ");
+    scanf("%lf %lf %lf", &first, &second, &third);
+    sorting(&first, &second, &third);
+    printf("Now the first: %.2lf, second: %.2lf, third: %.2lf.\n", first, second, third);
+    
+    // 07
+    former_input = getchar();
+    printf("Enter text to evaluate(enter '|' for EOF): ");
+    while ((ch = getchar()) != '|') {
+        printf("%i ", alphabetical_order(ch));
+    }
+    
+    // 08
+    former_input = getchar();
+    printf("\nEnter a floating-point number to power and an integer for exponent: ");
+    scanf("%lf %i", &first, &i);
+    printf("%i power of %lf is %lf.\n", i, first, power(first, i));
+    
+    // 09
+    former_input = getchar();
+    printf("Enter a floating-point number to power and an integer for exponent: ");
+    scanf("%lf %i", &second, &j);
+    printf("%i power of %.2lf is %.2lf.\n", j, second, power2(second, j));
+    
+    // 10
+    former_input = getchar();
+    printf("Enter an integer to convert, and an integer between 2 and 10: ");
+    scanf("%i %i", &i, &j);
+    printf("Converted using only %i numbers: ", j);
+    to_base_n(i, j);
+    
+    // 11
+    former_input = getchar();
+    printf("\nEnter index you want from fibonacci number sequence: ");
+    scanf("%i", &i);
+    printf("%ith fibonacci number is %i.\n", i, fibonacci(i));
+    
+    return 0;
+}
+
+double bigger(double first, double second) {
+    double bigger = first > second ? first : second;
+    printf("Bigger one is %.2f.\n", bigger);
+    return bigger;
+}
+
+void chline(char ch, int i, int j) {
+    int row;
+    for (row = i; row <= j; row++)
+        printf("%c  ", ch);
+    printf("\n");
+}
+
+void printch(char ch, int i, int j) {
+    int line, row;
+    for (line = 0; line < j; line++) {
+        for (row = 0; row < i; row++)
+            printf("%c  ", ch);
+        printf("\n");
+    }
+}
+
+double harmonic(double first, double second) {
+    double mean = (pow(first, -1.0) + pow(second, -1.0)) / 2.0;
+    mean = pow(mean, -1.0);
+    printf("Harmonic mean is %.4lf.\n", mean);
+    return mean;
+}
+
+void larger_of(double *first, double *second) {
+    double larger = *first > *second ? *first : *second;
+    *first = larger;
+    *second = larger;
+}
+
+void sorting(double *first, double *second, double *third) {
+    double biggest, smallest, middle;
+    biggest = *first > *second ? *first : *second;
+    biggest = biggest > *third ? biggest : *third;
+    smallest = *first < *second ? *first : *second;
+    smallest = smallest < *third ? smallest : *third;
+    if (*first > smallest && *first < biggest)
+        middle = *first;
+    else if (*second > smallest && *second < biggest)
+        middle = *second;
+    else
+        middle = *third;
+    *first = biggest;
+    *second = middle;
+    *third = smallest;
+}
+
+int alphabetical_order(char ch) {
+    if ((int) ch > 64 && (int) ch < 91)
+        return (int) ch - 64;
+    else if ((int) ch > 96 && (int) ch < 123)
+        return (int) ch - 96;
+    else
+        return -1;
+}
+
+double power(double target, int p) {
+    double result = 1.0;
+    int count;
+    if (p > 0) {
+        for (count = 1; count <= p; count++)
+            result *= target;
+    } else if (p < 0) {
+        for (count = 1; count <= -p; count++)
+            result /= target;
+    } else if (p == 0 && target != 0) {
+        result = 1.0;
+    } else if (p != 0 && target == 0) {
+        result = 0;
+    } else if (p == 0 && target == 0) {
+        result = 1.0;
+        printf("0 power 0 is not defined, considered as 1.\n");
+    }
+    return result;
+}
+
+double power2(double target, int p) {
+    double result = 1.0;
+    if (p > 0) {
+        result = power2(target, p-1) * target;
+    } else if (p < 0) {
+        result = power2(target, p+1) / target;
+    } else if (p == 0 && target != 0) {
+        result = 1.0;
+    } else if (p != 0 && target == 0) {
+        result = 0;
+    } else if (p == 0 && target == 0) {
+        result = 1.0;
+        printf("0 power 0 is not defined, considered as 1.\n");
+    }
+    return result;
+}
+
+void to_base_n(int num, int n) {
+    int left;
+    left = num % n;
+    if (num >= n)
+        to_base_n(num/n, n);
+    printf("%i", left);
+    return;
+}
+
+int fibonacci(int i) {
+    int fib, count;
+    int first = 1, second = 1;
+    if (i == 1)
+        fib = first;
+    else if (i == 2)
+        fib = second;
+    else {
+        for (count = 3; count <= i; count++) {
+            fib = first + second;
+            first = second;
+            second = fib;
+        }
+    }
+    return fib;
+}
+
