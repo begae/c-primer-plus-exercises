@@ -1,0 +1,304 @@
+
+#include <stdio.h>
+#define MONTHS 12
+#define YEARS 5
+
+void copy_arr(double target[], double source[], int len);
+void copy_ptr(double target[], double source[], int len);
+void copy_ptr2(double target[], double source[], double *ptr);
+int biggest(int arr[], int len);
+int indexof(double arr[], int len);
+double subtract(double arr[], int len);
+void reverse(double arr[], int len);
+void copy_vla(int hang, int yeol, double tgt[hang][yeol], double src[hang][yeol]);
+void print_vla(int hang, int yeol, double tgt[hang][yeol]);
+void sumsum(int ar[], int arr[], int arrr[], int len);
+void print_arr(double ar[][5], int hang);
+void double_arr(double ar[][5], int hang);
+void year_rain(float ar[YEARS][MONTHS]);
+void month_rain(float ar[YEARS][MONTHS]);
+void hang_average(int yeol, double ar[]);
+double average(int hang, int yeol, double ar[hang][yeol]);
+double maximum(int hang, int yeol, double ar[hang][yeol]);
+
+int main(void) {
+    
+    // 01
+    float rain[YEARS][MONTHS] = {
+        {4.3,4.3,4.3,3.0,2.0,1.2,0.2,0.2,0.4,2.4,3.5,6.6},
+        {8.5,8.2,1.2,1.6,2.4,0.0,5.2,0.9,0.3,0.9,1.4,7.3},
+        {9.1,8.5,6.7,4.3,2.1,0.8,0.2,0.2,1.1,2.3,6.1,8.4},
+        {7.2,9.9,8.4,3.3,1.2,0.8,0.4,0.0,0.6,1.7,4.3,6.2},
+        {7.6,5.6,3.8,2.8,3.8,0.2,0.0,0.0,0.0,1.3,2.6,5.2}
+    };
+    int year, month;
+    float subtot, total;
+    printf(" YEAR      RAINFALL  (inches)\n");
+    for (year = 0, total = 0; year < YEARS; year++) {
+        for (month = 0, subtot = 0; month < MONTHS; month++)
+            subtot += *(*(rain + year) + month);
+        printf("%5d %15.1f\n", 2010 + year, subtot);
+        total += subtot;
+    }
+    printf("The yearly average is %.1f inches.\n", total/YEARS);
+    printf("MONTHLY AVERAGES: \n");
+    printf(" Jan  Feb  Mar  Apr  May  Jun  Jul  Aug  Sep  Oct  Nov  Dec\n");
+    for (month = 0; month < MONTHS; month++) {
+        for (year = 0, subtot = 0; year < YEARS; year++)
+            subtot += *(*(rain + year) + month);
+        printf("%4.1f ", subtot/YEARS);
+    }
+    printf("\n");
+    
+    // 02
+    double source[5] = {1.1, 2.2, 3.3, 4.4, 5.5};
+    double target1[5], target2[5], target3[5];
+    copy_arr(target1, source, 5);
+    copy_ptr(target2, source, 5);
+    copy_ptr2(target3, source, source+5);
+    
+    // 03
+    int integers[4] = {3, 4, 5, 6};
+    printf("The biggest element is %d.\n", biggest(integers, 4));
+    
+    // 04
+    double doubles[4] = {3.3, 4.4, 5.5, 6.6};
+    printf("The index of the biggest element is %d.\n", indexof(doubles, 4));
+    
+    // 05
+    printf("The gap between biggest and smallest is %.2f.\n", subtract(doubles, 4));
+    
+    // 06
+    reverse(doubles, 4);
+    
+    // 07
+    double twodim[3][3] = { {1.1,2.2,3.3}, {4.4,5.5,6.6}, {7.7,8.8,9.9} };
+    double copied[3][3];
+    int index;
+    for (index = 0; index < 3; index++)
+        copy_arr(copied[index], twodim[index], 3);
+    
+    // 08
+    double seven[7] = { 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, 7.7 };
+    double three[3];
+    copy_ptr(three, &seven[2], 3);
+    
+    // 09
+    double src[3][5] = {
+        {1.1, 2.2, 3.3, 4.4, 5.5},
+        {6.6, 7.7, 8.8, 9.9, 0.0},
+        {1.2, 3.4, 5.6, 7.8, 9.0}
+    };
+    int hang = 3;
+    int yeol = 5;
+    double target[hang][yeol];
+    copy_vla(hang, yeol, target, src);
+    print_vla(hang, yeol, target);
+    
+    // 10
+    int one[4] = { 1, 2, 3, 4 };
+    int two[4] = { 5, 4, 3, 2 };
+    int sum[4];
+    sumsum(one, two, sum, 4);
+    
+    // 11
+    double_arr(src, 3);
+    print_arr(src, 3);
+    
+    // 12
+    year_rain(rain);
+    month_rain(rain);
+    
+    // 13, 14
+    char former_input;
+    double array[3][5];
+    for (hang = 0; hang < 3; hang++) {
+        printf("Hang %d: \n", hang+1);
+        for (yeol = 0; yeol < 5; yeol++) {
+            printf("Yeol %d: ", yeol+1);
+            scanf("%lf", &array[hang][yeol]);
+            scanf("%c", &former_input);
+        }
+    }
+    for (hang = 0; hang < 3; hang++) {
+        printf("%i ", hang+1);
+        hang_average(5, array[hang]);
+    }
+    printf("The average of array total is %.2lf\n", average(3, 5, array));
+    printf("The biggest value in array is %.2lf\n", maximum(3, 5, array));
+    
+    return 0;
+}
+
+void copy_arr(double target[], double source[], int len) {
+    int index;
+    printf("Now the target array is { ");
+    for (index = 0; index < len; index++) {
+        target[index] = source[index];
+        printf("%.1f ", target[index]);
+    }
+    printf("}\n");
+}
+
+void copy_ptr(double target[], double source[], int len) {
+    int index;
+    printf("Now the target array is { ");
+    for (index = 0; index < len; index++) {
+        *(target + index) = *(source + index);
+        printf("%.1f ", *(target + index));
+    }
+    printf("}\n");
+}
+
+void copy_ptr2(double target[], double source[], double *ptr) {
+    printf("Now the target array is { ");
+    while (source < ptr) {
+        target = source;
+        printf("%.1f ", *target);
+        target++;
+        source++;
+    }
+    printf("}\n");
+}
+
+int biggest(int arr[], int len) {
+    int index;
+    int biggest = arr[0];
+    for (index = 1; index < len; index++)
+        biggest = arr[index] > biggest ? arr[index] : biggest;
+    return biggest;
+}
+
+int indexof(double arr[], int len) {
+    int index, biggest = 0;
+    for (index = 0; index < len; index++)
+        biggest = arr[index] > arr[biggest] ? index : biggest;
+    return biggest;
+}
+
+double subtract(double arr[], int len) {
+    int index;
+    double biggest = arr[0], smallest = arr[0];
+    for (index = 1; index < len; index++)
+        biggest = arr[index] > biggest ? arr[index] : biggest;
+    for (index = 1; index < len; index++)
+        smallest = arr[index] < smallest ? arr[index] : smallest;
+    return biggest - smallest;
+}
+
+void reverse(double arr[], int len) {
+    double rev[len];
+    int index;
+    printf("The reversed array is { ");
+    for (index = 0; index < len; index++)
+        rev[len-index-1] = arr[index];
+    for (index = 0; index < len; index++)
+        printf("%.2f ", rev[index]);
+    printf("}\n");
+}
+
+void copy_vla(int hang, int yeol, double tgt[hang][yeol], double src[hang][yeol]) {
+    int i, j;
+    for (i = 0; i < hang; i++) {
+        for (j = 0; j < yeol; j++)
+            tgt[i][j] = src[i][j];
+    }
+}
+
+void print_vla(int hang, int yeol, double tgt[hang][yeol]) {
+    int i, j;
+    printf("Now the target array is {\n");
+    for (i = 0; i < hang; i++) {
+        printf("\t{ ");
+        for (j = 0; j < yeol; j++)
+            printf("%.1f ", tgt[i][j]);
+        printf("}\n");
+    }
+    printf("}\n");
+}
+
+void sumsum(int ar[], int arr[], int arrr[], int len) {
+    int index;
+    printf("Now the summed array is { ");
+    for (index = 0; index < len; index++) {
+        arrr[index] = ar[index];
+        arrr[index] += arr[index];
+        printf("%i ", arrr[index]);
+    }
+    printf("}\n");
+}
+
+void print_arr(double ar[][5], int hang) {
+    int i, j;
+    printf("Now the target array is {\n");
+    for (i = 0; i < hang; i++) {
+        printf("\t{ ");
+        for (j = 0; j < 5; j++)
+            printf("%.1f ", ar[i][j]);
+        printf("}\n");
+    }
+    printf("}\n");
+}
+
+void double_arr(double ar[][5], int hang) {
+    int i, j;
+    for (i = 0; i < hang; i++) {
+        for (j = 0; j < 5; j++)
+            ar[i][j] *= 2.0;
+    }
+}
+
+void year_rain(float ar[YEARS][MONTHS]) {
+    int year, month;
+    float total, subtot;
+    printf(" YEAR      RAINFALL  (inches)\n");
+    for (year = 0, total = 0; year < YEARS; year++) {
+        for (month = 0, subtot = 0; month < MONTHS; month++)
+            subtot += ar[year][month];
+        printf("%5d %15.1f\n", 2010 + year, subtot);
+        total += subtot;
+    }
+    printf("The yearly average is %.1f inches.\n", total/YEARS);
+}
+
+void month_rain(float ar[YEARS][MONTHS]) {
+    int month, year;
+    float subtot;
+    printf("MONTHLY AVERAGES: \n");
+    printf(" Jan  Feb  Mar  Apr  May  Jun  Jul  Aug  Sep  Oct  Nov  Dec\n");
+    for (month = 0; month < MONTHS; month++) {
+        for (year = 0, subtot = 0; year < YEARS; year++)
+            subtot += ar[year][month];
+        printf("%4.1f ", subtot/YEARS);
+    }
+    printf("\n");
+}
+
+void hang_average(int yeol, double ar[]) {
+    int i;
+    double sum = 0;
+    for (i = 0; i < yeol; i++)
+        sum += ar[i];
+    printf("Hang average: %.2lf\n", sum/yeol);
+}
+
+double average(int hang, int yeol, double ar[hang][yeol]) {
+    int i, j;
+    double sum = 0;
+    for (i = 0; i < hang; i++) {
+        for (j = 0; j < yeol; j++)
+            sum += ar[i][j];
+    }
+    return sum / (double)(hang*yeol);
+}
+
+double maximum(int hang, int yeol, double ar[hang][yeol]) {
+    int i, j;
+    double max = ar[0][0];
+    for (i = 0; i < hang; i++) {
+        for (j = 0; j < yeol; j++)
+            max = ar[i][j] > max ? ar[i][j] : max;
+    }
+    return max;
+}
+
